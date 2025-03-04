@@ -3,8 +3,8 @@
 #include <random>
 using namespace std;
 
-void die(string s = "") {
-    cout << (s == "" ? "BAD INPUT" : s) << endl;
+void die(string msg = "BAD INPUT") {
+    cout << msg << endl;
     // Star Wars reference
     exit(66);
 }
@@ -12,7 +12,11 @@ void die(string s = "") {
 
 int main() {
     
-    string password = "";
+    // Random number generator
+    random_device rd;
+    mt19937_64 gen(rd());
+
+    string password;
     
     // Constants for the characters
     const string UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -33,7 +37,7 @@ int main() {
 
     // Check if the length is between 1 and 100
     if (length < 1 || length > 100) {
-        die("Invalid length");
+        die("Invalid length (Password must be between 1 and 100 characters)");
     }
 
     // Menu for choosing the characters 1 - 6
@@ -58,7 +62,7 @@ int main() {
         die("Invalid choice");
     }
 
-    string characters = "";
+    string characters;
 
     switch (choice) {
         case 1:
@@ -81,9 +85,7 @@ int main() {
             break;
     }
 
-    // Random number generator
-    random_device rd;
-    mt19937_64 gen(rd());
+    // Distribution for the characters
     uniform_int_distribution<int> dist(0, characters.size() - 1);
 
     for (int i = 0; i < length; i++) {
